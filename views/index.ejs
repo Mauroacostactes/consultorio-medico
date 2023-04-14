@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Consultorio Medico</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js"></script>
+  </head>
+  
+  <body>
+    <h1>Médicos</h1>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Especialidad</th>
+          <th>Teléfono</th>
+          <th>Correo electrónico</th>
+          <th>Consultorio</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (let i = 0; i < medicos.length; i++) { %>
+          <tr>
+            <td><%= medicos[i].id %></td>
+            <td><%= medicos[i].nombre %></td>
+            <td><%= medicos[i].especialidad %></td>
+            <td><%= medicos[i].telefono %></td>
+            <td><%= medicos[i].correo_electronico %></td>
+            <td><%= medicos[i].consultorio_id %></td>
+            <td>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editarModal">Editar</button>
+
+            </td>
+            <td>
+              <form action="/eliminar/<%= medicos[i].id %>/" method="delete">
+                <input type="hidden" name="medico_id" value="<%= medicos[i].id %>">
+                <button type="submit" onclick="return confirm('¿Seguro desea remover?')" class="btn btn-danger">Eliminar</button>
+              </form>
+            </td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+    <a href="/medico/agregar" class="btn btn-success">Agregar médico</a>
+
+
+<!-- Modal -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel">Editar médico</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form >
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="nombre" name="nombre" value="<%= medicos.nombre %>">
+          </div>
+          <div class="mb-3">
+            <label for="especialidad" class="form-label">Especialidad</label>
+            <input type="text" class="form-control" id="especialidad" name="especialidad" value="<%= medicos.especialidad %>">
+          </div>
+          <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="text" class="form-control" id="telefono" name="telefono" value="<%= medicos.telefono %>">
+          </div>
+          <div class="mb-3">
+            <label for="correo_electronico" class="form-label">Correo electrónico</label>
+            <input type="email" class="form-control" id="correo_electronico" name="correo_electronico" value="<%= medicos.correo_electronico %>">
+          </div>
+          <div class="mb-3">
+            <label for="consultorio_id" class="form-label">Consultorio</label>
+            <input type="text" class="form-control" id="consultorio_id" name="consultorio_id" value="<%= medicos.consultorio_id %>">
+          
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button  class="btn btn-primary" method="put" action="/medico/editar/<%= medicos.id %>">Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  </body>
+</html>
